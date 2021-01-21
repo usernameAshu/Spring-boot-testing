@@ -1,9 +1,11 @@
 server:
-  port:8080
+  port: 8080
 spring:
   datasource:
     platform: h2
     url: jdbc:h2:mem:Test_DB
+    username: sa
+    password:
   jpa:
     show-sql: true
   h2:

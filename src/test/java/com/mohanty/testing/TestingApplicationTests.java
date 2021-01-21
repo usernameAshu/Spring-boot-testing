@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestingApplicationTests {
@@ -71,7 +74,7 @@ public class TestingApplicationTests {
                         .isOk())
                 .andReturn();
         String resultContent = mvcResult.getResponse().getContentAsString();
-        Response response = objectMapper.readValue(resultContent,Response.class);
-        Assert.assertTrue(response.isStatus()==Boolean.TRUE);
+        List<Employee> employeeList= Arrays.asList(objectMapper.readValue(resultContent,Employee[].class));
+        Assert.assertTrue(employeeList.size()>0);
     }
 }
