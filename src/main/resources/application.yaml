@@ -1,0 +1,12 @@
+server:
+  port:8080
+spring:
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:Test_DB
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+#H2-InMemoryDB -> http://localhost:8080/h2-console
