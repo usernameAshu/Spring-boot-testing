@@ -1,5 +1,6 @@
 package com.mohanty.testing;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mohanty.testing.model.Employee;
 import com.mohanty.testing.model.Response;
@@ -73,8 +74,33 @@ public class TestingApplicationTests {
                         .status()
                         .isOk())
                 .andReturn();
-        String resultContent = mvcResult.getResponse().getContentAsString();
-        List<Employee> employeeList= Arrays.asList(objectMapper.readValue(resultContent,Employee[].class));
-        Assert.assertTrue(employeeList.size()>0);
+        String resultContent = mvcResult
+                .getResponse()
+                .getContentAsString();
+        List<Employee> employeeList = Arrays.asList(objectMapper.readValue(resultContent, Employee[].class));
+        Assert.assertTrue(employeeList.size() > 0);
+    }
+
+    @Test
+    public void updateEmployeeTest() throws Exception {
+        Employee employee = new Employee();
+        employee.setId("1");
+        employee.setName("Ashutosh");
+        employee.setDept("HR");
+        String jsonRequest = objectMapper.writeValueAsString(employee);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .request(HttpMethod.PUT, "/test/v1")
+                .content(jsonRequest)
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
+        MvcResult mvcResult = mockMvc
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers
+                        .status()
+                        .isOk())
+                .andReturn();
+        Response response = objectMapper.readValue(mvcResult
+                .getResponse()
+                .getContentAsString(), Response.class);
+        Assert.assertTrue(response.isStatus()==Boolean.TRUE);
     }
 }
